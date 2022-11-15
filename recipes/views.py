@@ -3,4 +3,4 @@ from django.shortcuts import render
 
 
 def home(request):
-    return HttpResponse('Olá mundo !!!')
+    return render(request,'home.html',context={'nome':'Olá Mundo !!!'})
