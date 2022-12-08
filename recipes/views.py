@@ -13,9 +13,8 @@ def home(request):
 
 def recipe(request, id ):
     return render(request, 'recipes/pages/recipe-view.html', 
-    context={'name': 'Leonardo Pereira',
-    'id':id,
-    # 'recipe':make_recipe(),
-    # 'is_detail_page':True,
+    context={'name': 'Leonardo Pereira', 
+    'recipe':make_recipe(),
+    'is_detail_page':True,
     
     })
