@@ -8,7 +8,7 @@ from .models import Category, Recipe
 
 def home(request):
 
-    recipes=Recipe.objects.all()
+    recipes=Recipe.objects.filter(is_published=True)
     return render(request,'recipes/pages/home.html',context={
         "recipes":recipes
     })
@@ -16,6 +16,16 @@ def home(request):
     #      'recipes' : [make_recipe() for _ in range(10)],        
         
     #     })
+
+def category(request,category_id):
+
+    recipes=Recipe.objects.filter(category__id=category_id)
+    
+    return render(request, 'recipes/pages/home.html',context={ 
+    'recipes':recipes,
+    })
+
+
 
 def recipe(request, id ):
     return render(request, 'recipes/pages/recipe-view.html', 
