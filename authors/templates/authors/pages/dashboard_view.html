@@ -1,0 +1,20 @@
+{% extends 'global/base.html' %}
+{% block title %}Dashbord {% endblock title %}
+
+{% block content %}
+
+
+  {% if request.user.is_authenticated %}
+    {% include 'authors/partials/login_message.html' %}
+  {% endif%} 
+      <div class="main-content center container ">
+          <h1>Dashbord ({{user}}) </h1>
+        </div>
+
+  {% include 'global/partials/messages.html' %}
+  
+  {% if not request.user.is_authenticated %}
+        {% include 'global/partials/form.html' %} 
+  {% endif%}
+
+{% endblock content %}

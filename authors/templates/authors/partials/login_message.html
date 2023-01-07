@@ -1,0 +1,9 @@
+<div class='main-content center'>
+    Você ta logado no sistema '{{request.user}}', Deseja sair do Sistema 
+    <form  class= 'inline-form'action="{% url 'authors:logout_view'%}" method='POST'>
+      {% csrf_token %}
+      <input type="hidden" name="username" value="{{request.user.username}}">
+      <button  class="plaintext-button" type='submit'>click aqui</button>
+    </form>
+  
+</div>
