@@ -20,9 +20,14 @@
         <main class="main-content-container">
             {% block content %}{% endblock content %} 
             {% include 'global/partials/pagination.html' %}
+
         </main>
         
     {% include 'global/partials/footer.html' %}
+    <script src="{% static 'global/js/scripts.js' %}">
+        
+    </script>
+
   
 </body>
 

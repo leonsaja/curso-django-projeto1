@@ -1,13 +1,10 @@
 {% if user.is_authenticated %}
-
-<div class='main-content center'>
-    Você ta logado no sistema '{{request.user}}', Deseja volta para receitas <a href="{% url 'authors:dashboard'%}">Click aqui</a> ou sair do Sistema 
-    <form  class= 'inline-form'action="{% url 'authors:logout_view'%}" method='POST'>
-      {% csrf_token %}
-      <input type="hidden" name="username" value="{{request.user.username}}">
-      <button  class="plaintext-button" type='submit'>Click aqui.</button>
-    </form>
- 
+<div class="login-message">
+  Você está logado com
+  {{ request.user.username }}. 
+  <a href="{% url 'authors:dashboard' %}">Veja suas receitas</a>, 
+  <a href="{% url 'authors:dashboard_recipe_create' %}"> crie uma nova receita </a> ou 
+  {% include 'authors/partials/form_logout.html' %}
+  
 </div>
-
-{%endif%}
+{% endif %}
