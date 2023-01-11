@@ -11,7 +11,6 @@ PER_PAGE=9
 def home(request):
     
     recipes=Recipe.objects.filter(is_published=True)
-
     page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 
     messages.success(request, 'Seja Bem Vindo ao Site de Receita !')

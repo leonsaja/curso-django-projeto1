@@ -5,7 +5,8 @@ from django.http import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from authors.forms import login_form, register_form
+from authors.forms import login_form, recipe_form, register_form
+from recipes.models import Recipe
 
 
 def register_view(request):
@@ -74,7 +75,7 @@ def login_create(request):
             messages.error(request,' Credencias Inválida.')    
     else:
         messages.error(request, 'Usuario ou Senha Inválida.')
-    return redirect(reverse('authors:dashbord'))
+    return redirect(reverse('authors:dashboard'))
 
 
 @login_required(login_url='authors:login',redirect_field_name='next')
@@ -89,6 +90,43 @@ def logout_view(request):
     return redirect(reverse('authors:login'))
 
 @login_required(login_url='authors:login',redirect_field_name='next')
-def dashbord(request):
-    return render(request,'authors/pages/dashboard_view.html')
+def dashboard(request):
+    recipes=Recipe.objects.filter(is_published=False, author=request.user )
+  
+    return render(request,'authors/pages/dashboard_view.html',{'recipes':recipes})
+
+@login_required(login_url='authors:login',redirect_field_name='next')
+def dashboard_recipe_create(request):
+    
+    form=recipe_form.AuthorRecipeForm(data=request.POST or None, 
+                                      files=request.FILES or None,
+                                      )
+    if form.is_valid():
+       form=form.save(commit=False)
+       form.author=request.user
+       form.save()
+       messages.success(request,'A sua receita foi salvo com sucesso')
+       return redirect(reverse('authors:dashboard_recipe_id',args=(form.id,)))
+    
+    return render(request,'authors/pages/dashboard_create_recipe.html',{'form':form})
+    
+
+@login_required(login_url='authors:login',redirect_field_name='next')
+def dashboard_recipe_id(request,id):
+    recipe=Recipe.objects.get(is_published=False, author=request.user, id=id )
+    
+    if not recipe:
+        raise Http404()
+
+    form=recipe_form.AuthorRecipeForm(data=request.POST or None, 
+                                      files=request.FILES or None,
+                                      instance=recipe)
+    if form.is_valid():
+       form=form.save(commit=False)
+       form.author=request.user
+       form.save()
+       messages.success(request,'A sua receita foi salvo com sucesso')
+       return redirect(reverse('authors:dashboard_recipe_edit',args=(id,)))
+    
+    return render(request,'authors/pages/dashboard_recipe.html',{'form':form})
     

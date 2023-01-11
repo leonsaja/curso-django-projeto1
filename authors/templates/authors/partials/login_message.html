@@ -1,9 +1,13 @@
+{% if user.is_authenticated %}
+
 <div class='main-content center'>
-    Você ta logado no sistema '{{request.user}}', Deseja sair do Sistema 
+    Você ta logado no sistema '{{request.user}}', Deseja volta para receitas <a href="{% url 'authors:dashboard'%}">Click aqui</a> ou sair do Sistema 
     <form  class= 'inline-form'action="{% url 'authors:logout_view'%}" method='POST'>
       {% csrf_token %}
       <input type="hidden" name="username" value="{{request.user.username}}">
-      <button  class="plaintext-button" type='submit'>click aqui</button>
+      <button  class="plaintext-button" type='submit'>Click aqui.</button>
     </form>
-  
+ 
 </div>
+
+{%endif%}

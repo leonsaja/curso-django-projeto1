@@ -6,7 +6,6 @@ from django.db import models
 class Category(models.Model):
     name=models.CharField(max_length=65)
 
-
     def __str__(self):
         return self.name
 
@@ -18,13 +17,13 @@ class Category(models.Model):
 class Recipe (models.Model):
     title= models.CharField(max_length=65)
     description=models.CharField(max_length=165)
-    slug=models.SlugField()
+    slug=models.SlugField(unique=True)
     preparation_time=models.IntegerField()
     preparation_time_unit=models.CharField(max_length=65)
     servings=models.IntegerField()
     servings_unit=models.CharField(max_length=65)
-    prepation_steps = models.TextField()
-    prepation_steps_is_html= models.BooleanField(default=False)
+    preparation_steps = models.TextField()
+    preparation_steps_is_html= models.BooleanField(default=False)
     created_at=models.DateTimeField(auto_now_add=True)
     updated_at=models.DateTimeField(auto_now=True)
     is_published=models.BooleanField(default=False)
@@ -37,3 +36,7 @@ class Recipe (models.Model):
         return self.title
     class Meta:
         verbose_name_plural = "recipes"
+
+
+    def save(self):
+        return super().save()
